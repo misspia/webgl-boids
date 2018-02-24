@@ -1,4 +1,6 @@
 import './index.scss'
-import frag from './frag.glsl'
+import App from './js/app.js'
+import frag from './shaders/frag.glsl'
 
-console.log(frag)
+const canvas = document.getElementById('canvas');
+new App(canvas);
