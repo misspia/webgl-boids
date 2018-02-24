@@ -1,4 +1,5 @@
 const path = require('path');
+const HappyPack = require('happypack');
 
 const paths = {
 	DIST: path.resolve(__dirname, 'dist'),
@@ -14,6 +15,27 @@ module.exports = {
 		publicPath: 'dist/'
 	},
 	plugins: [
+		new HappyPack({
+			id: 'glsl',
+			threads: 4,
+			loaders: ['webpack-glsl-loader']
+		}),
+
+		new HappyPack({
+			id: 'js',
+			threads: 4,
+			loaders: ['babel-loader']
+		}),
+
+		new HappyPack({
+			id: 'scss',
+			threads: 2,
+			loaders: [
+				'style-loader',
+				'css-loader',
+				'sass-loader'
+			]
+		}),
 	],
 	module: {
 		rules: [
@@ -23,24 +45,18 @@ module.exports = {
 					'file-loader',
 				],
 			},
-      {
+			{
         test: /\.(glsl|vert|frag)$/,
-        loader: 'webpack-glsl-loader'
+        loader: 'happypack/loader?id=glsl'
       },
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				use: [
-					'babel-loader',
-				],
+				use: 'happypack/loader?id=js',
 			},
 			{
 				test: /\.scss$/,
-				use: [
-					'style-loader',
-					'css-loader',
-					'sass-loader'
-				],
+				use: 'happypack/loader?id=scss',
 			},
 		],
 	},
