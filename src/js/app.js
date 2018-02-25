@@ -2,15 +2,19 @@ import * as THREE from 'three'
 import createControls from 'orbit-controls'
 
 class App {
-  constructor(canvas) {
+  constructor(canvas, options = {}) {
     this.canvas = canvas;
-    // this.clock = new THREE.Clock();
 
     // renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: true
+      antialias: true,
+      ...options
     });
+
+    // set device pizel ratio
+    const dpr = Math.min(1.5, window.devicePixelRatio);
+    this.renderer.setPixelRatio(dpr);
 
     // 3D camera looking
     this.camera = new THREE.PerspectiveCamera(75, 1, 0.01, 100);
@@ -24,21 +28,24 @@ class App {
       element: this.canvas,
       rotateSpeed: 0,
       distance: 1,
-      distanceBounds: [1, 100]
+      distanceBounds: [1, 100],
+      ...options
     });
-
-    this.init();
-  }
-  init() {
-    // set device pizel ratio
-    const dpr = Math.min(1.5, window.devicePixelRatio);
-    this.renderer.setPixelRatio(dpr);
 
     //setup initial size
     this.resize();
 
     // event listeners
     window.addEventListener('resize', () => this.resize());
+  }
+  getSetupObjects() {
+    return {
+      renderer: this.renderer,
+      camera: this.camera,
+      target: this.target,
+      scene: this.scene,
+      controls: this.controls,
+    }
   }
   resize() {
     const width = window.innerWidth;
