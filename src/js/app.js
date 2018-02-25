@@ -13,7 +13,7 @@ class App {
       ...options
     });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setClearColor( 0xff00ff );
+    this.renderer.setClearColor( 0x29233b );
 
     // set device pizel ratio
     const dpr = Math.min(1.5, window.devicePixelRatio);
@@ -23,6 +23,8 @@ class App {
     const aspectRatio = window.innerWidth / window.innerHeight;
     this.camera = new THREE.PerspectiveCamera( 75, aspectRatio, 0.01, 100);
     this.target = new THREE.Vector3();
+    this.camera.position.set(0, 1, -3);
+    this.camera.lookAt(this.target);
 
     // 3D scene
     this.scene = new THREE.Scene();
