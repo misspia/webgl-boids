@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import dat from 'dat.gui'
 
+import Boid from './boid.js'
+
+
 class Stage {
   constructor({ renderer, camera, target, scene, controls }) {
     this.renderer = renderer;
@@ -16,10 +19,16 @@ class Stage {
   init() {
     this.createContainer();
     this.createGUI();
+    this.testBoid();
+  }
+  testBoid() {
+    const coord = {x: 0, y: 0, z: 0};
+    const boid = new Boid(coord, 0.1, 0.1, 0.1);
+    this.scene.add(boid.body);
   }
   createGUI() {
     // dat.gui controls
-    // example: 
+    // example:
     // this.gui.add(this.container.position, 'y', 0, 100).listen()
   }
   createContainer() {
