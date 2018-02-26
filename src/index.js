@@ -1,16 +1,17 @@
+import * as THREE from 'three';
 import './index.scss'
 import App from './js/app.js'
+import Stage from './js/stage.js'
 import frag from './shaders/frag.glsl'
 
 const canvas = document.getElementById('canvas');
-const options = {antialias: false, alpha: false, stencil: false};
+const options = {antialias: true, alpha: false, stencil: false};
 
 const app = new App(canvas, options);
-const { renderer, camera, target, scene, controls } = app.getSetupObjects();
+const setupObjects = app.getSetupSetup();
 
+const stage = new Stage(setupObjects);
 
-const draw = () => {
-  requestAnimationFrame(draw);
+window.onload = () => {
+  stage.draw();
 }
-
-draw();

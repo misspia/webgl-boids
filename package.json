@@ -19,11 +19,12 @@
   "homepage": "https://github.com/misspia/webgl-boids#readme",
   "dependencies": {
     "css-loader": "^0.28.10",
+    "dat.gui": "^0.7.1",
     "node-sass": "^4.7.2",
-    "orbit-controls": "^1.2.4",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.20.2",
-    "three": "^0.90.0"
+    "three": "^0.90.0",
+    "three-orbit-controls": "^82.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
