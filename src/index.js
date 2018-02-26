@@ -5,7 +5,11 @@ import Stage from './js/stage.js'
 import frag from './shaders/frag.glsl'
 
 const canvas = document.getElementById('canvas');
-const options = {antialias: true, alpha: false, stencil: false};
+const options = {
+  antialias: true,
+  alpha: false,
+  stencil: false
+};
 
 const app = new App(canvas, options);
 const setupObjects = app.getSetupSetup();

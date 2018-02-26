@@ -14,10 +14,10 @@ class Boid {
   }
   init() {
     const geometry = new THREE.SphereGeometry(this.radius, 32, 32);
-    // const material = new THREE.MeshBasicMaterial({color: 0xffffff});
-
     const material = new THREE.RawShaderMaterial({
-        // uniforms: {},
+        uniforms: {
+          uResolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight))
+        },
         vertexShader: vert,
         fragmentShader: frag
     })
