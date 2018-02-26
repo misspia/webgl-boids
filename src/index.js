@@ -11,4 +11,7 @@ const app = new App(canvas, options);
 const setupObjects = app.getSetupSetup();
 
 const stage = new Stage(setupObjects);
-stage.draw();
+
+window.onload = () => {
+  stage.draw();
+}
