@@ -9,7 +9,7 @@ class Boid {
     this.vel = vel;
     this.accel = accel;
 
-    this.body = {};
+    this.mesh = {};
     this.init();
   }
   init() {
@@ -22,7 +22,7 @@ class Boid {
         fragmentShader: frag
     })
 
-    this.body = new THREE.Mesh(geometry, material);
+    this.mesh = new THREE.Mesh(geometry, material);
   }
 }
 

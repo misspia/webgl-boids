@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import dat from 'dat.gui'
 
-import Boid from './boid.js'
+import Boids from './boids.js'
 
 
 class Stage {
@@ -14,17 +14,25 @@ class Stage {
     this.gui = new dat.GUI();
 
     this.container = {};
+    this.simulation = {};
     this.init();
   }
   init() {
     this.createContainer();
     this.createGUI();
-    this.testBoid();
+    this.initSimulation();
+
   }
-  testBoid() {
-    const coord = {x: 0, y: 0, z: 0};
-    const boid = new Boid(coord, 0.1, 0.1, 0.1);
-    this.scene.add(boid.body);
+  initSimulation() {
+    const config = {
+      renderer: this.renderer,
+      camera: this.camera,
+      scene:this.scene,
+      target: this.target,
+      spawnPosition: this.getContainerCenter(),
+      boundingBox: this.getContainerVertices()
+    }
+    this.simulation = new Boids(config);
   }
   createGUI() {
     // dat.gui controls
@@ -32,17 +40,29 @@ class Stage {
     // this.gui.add(this.container.position, 'y', 0, 100).listen()
   }
   createContainer() {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const size = 2;
+    const halfSize = size / 2;
+
+    const geometry = new THREE.BoxGeometry(size, size, size);
+    // geometry.translate(halfSize, halfSize, halfSize);
     const material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true});
+
     this.container = new THREE.Mesh(geometry, material);
     this.scene.add(this.container);
+
+    // this.camera.position.set(halfSize, halfSize, halfSize);
+    // console.log(this.getContainerVertices())
   }
   getContainerVertices() {
     return this.container.geometry.vertices;
   }
-  draw() {
+  getContainerCenter() {
+    return this.container.position;
+  }
+  render() {
     this.renderer.render(this.scene, this.camera)
-    requestAnimationFrame(() => this.draw())
+    this.simulation.render();
+    requestAnimationFrame(() => this.render());
   }
 }
 

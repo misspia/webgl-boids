@@ -12,10 +12,11 @@ const options = {
 };
 
 const app = new App(canvas, options);
+// app.showGridHelper();
 const setupObjects = app.getSetupSetup();
 
 const stage = new Stage(setupObjects);
 
 window.onload = () => {
-  stage.draw();
+  stage.render();
 }
