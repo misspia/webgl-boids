@@ -24,7 +24,7 @@ class App {
     this.camera = new THREE.PerspectiveCamera( 75, aspectRatio, 0.01, 100);
     this.target = new THREE.Vector3();
     this.camera.position.set(0, 1, -3);
-    this.camera.lookAt(this.target);
+    // this.camera.lookAt(this.target);
 
     // 3D scene
     this.scene = new THREE.Scene();
@@ -61,6 +61,10 @@ class App {
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
+  }
+  showGridHelper(size = 10, divisions = 10) {
+    const gridHelper = new THREE.GridHelper(size, divisions);
+    this.scene.add(gridHelper);
   }
 }
 
