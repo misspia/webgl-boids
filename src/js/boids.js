@@ -37,7 +37,7 @@ class Boids {
   }
   updatePositions() {
     this.boids.forEach( boid => {
-      const v1 = this.toCenterMass();
+      const v1 = this.getCenterMass();
       const v2 = this.keepSmallDist();
       const v3 = this.matchNeighbourVel();
 
@@ -46,20 +46,24 @@ class Boids {
     });
   }
   // boid rules
-  toCenterMass() {
-
-  }
-  getCenterMass(omittedIndex) { // center mass without current boid
-    // average of all boid positions except omitted index (targeted boid)
+  getCenterMass(targetIndex) { // center mass without current boid
+    // average of all boid positions except boid index
     const sum = this.boids.reduce((sum, boid, index) => {
-      if(omittedIndex == index) return sum;
+      if(targetIndex == index) return sum;
       return sum.add(boid.pos);
     }, new THREE.Vector3());
 
     return sum.divideScalar(this.boids.length);
   }
-  keepSmallDist() {
+  keepSmallDist(targetBoid, targetIndex) {
+    return this.boids.reduce((acc, boid, index) => {
+      if(targetIndex == index) return acc;
 
+      const deltaPos = targetBoid.sub(boid); // length() ??
+      if(Math.abs(deltaPos) < 100) { // 100 = closest allowed dist b/w boids
+        return acc -= deltaPos;
+      }
+    }, new THREE.Vector3());
   }
   matchNeighbourVel() {
 
