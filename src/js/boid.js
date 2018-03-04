@@ -3,8 +3,8 @@ import vert from '../shaders/boid.vert'
 import frag from '../shaders/boid.frag'
 
 class Boid {
-  constructor(coords, radius, accel, vel) {
-    this.coords = coords;
+  constructor(pos, radius, accel, vel) {
+    this.pos = pos;
     this.radius = radius;
     this.vel = vel;
     this.accel = accel;
@@ -24,6 +24,9 @@ class Boid {
     })
 
     this.mesh = new THREE.Mesh(geometry, material);
+
+    const {x, y, z} = this.pos;
+    this.mesh.position.set(x, y, z);
   }
 }
 
