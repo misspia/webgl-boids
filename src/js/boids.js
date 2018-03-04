@@ -48,25 +48,34 @@ class Boids {
   // boid rules
   getCenterMass(targetIndex) { // center mass without current boid
     // average of all boid positions except boid index
-    const sum = this.boids.reduce((sum, boid, index) => {
-      if(targetIndex == index) return sum;
-      return sum.add(boid.pos);
+    const totalPos = this.boids.reduce((acc, boid, index) => {
+      if(targetIndex == index) return acc;
+      return acc.add(boid.pos);
     }, new THREE.Vector3());
 
-    return sum.divideScalar(this.boids.length);
+    return totalPos.divideScalar(this.boids.length);
   }
   keepSmallDist(targetBoid, targetIndex) {
     return this.boids.reduce((acc, boid, index) => {
       if(targetIndex == index) return acc;
 
       const deltaPos = targetBoid.sub(boid); // length() ??
-      if(Math.abs(deltaPos) < 100) { // 100 = closest allowed dist b/w boids
+
+       // 0.3 = closest allowed dist b/w boids
+       // should be at least creater than the radius of a boid
+      if(Math.abs(deltaPos) < 0.3) {
         return acc -= deltaPos;
       }
     }, new THREE.Vector3());
   }
-  matchNeighbourVel() {
+  matchNeighbourVel(targetBoid, targetIndex) {
+    const totalVel = this.boids.reduce((acc, boid, index) => {
+      if(boidIndex == index) return acc;
+      return acc += boid.vel;
+    }, new THREE.Vector3());
 
+    totalVel.divideScalar(this.boids.length - 1);
+    return totalVel.sub(targetBoid.vel).divideScalar(0.1); // 0.1 --> add a bit of vel back
   }
 
   render() {
