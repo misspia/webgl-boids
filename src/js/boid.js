@@ -16,7 +16,8 @@ class Boid {
     const geometry = new THREE.SphereGeometry(this.radius, 32, 32);
     const material = new THREE.RawShaderMaterial({
         uniforms: {
-          uResolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight))
+          uResolution: new THREE.Uniform(new THREE.Vector2(window.innerWidth, window.innerHeight)),
+          radius: 0,
         },
         vertexShader: vert,
         fragmentShader: frag
