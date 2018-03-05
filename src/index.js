@@ -12,7 +12,7 @@ const options = {
 };
 
 const app = new App(canvas, options);
-// app.showGridHelper();
+app.showGridHelper();
 const setupObjects = app.getSetupSetup();
 
 const stage = new Stage(setupObjects);

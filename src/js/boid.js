@@ -3,7 +3,7 @@ import vert from '../shaders/boid.vert'
 import frag from '../shaders/boid.frag'
 
 class Boid {
-  constructor(pos, radius, accel, vel) {
+  constructor(pos, radius, vel, accel) {
     this.pos = pos;
     this.radius = radius;
     this.vel = vel;
@@ -28,6 +28,9 @@ class Boid {
     const {x, y, z} = this.pos;
     this.mesh.position.set(x, y, z);
   }
+  updatePosition() {
+
+  }  
 }
 
 

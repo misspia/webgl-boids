@@ -1,33 +1,44 @@
 import * as THREE from 'three'
 
 import Boid from './boid.js'
-import Utils from
+import { Calc } from './utils.js'
 
 class Boids {
-  constructor({renderer, camera, scene, spanPosition, boundingBox}) {
+  constructor({renderer, camera, scene, spanPosition, containerVertices}) {
     this.renderer = renderer;
     this.camera = camera;
     this.scene = scene;
 
     this.spawnPosition = {};
-    this.boundingBox = [];
+    this.borders = this.formatBorders(containerVertices);
 
     this.boids = [];
     this.numBoids = 10;
     this.vel = 0.01;
     this.accel = 0.01;
 
-    this.init();
+    this.initualizePositions();
   }
-  initualizePositions() {  // randomize starting pos within container for each
+  formatBorders(vertices) {
+    return {
+      max: vertices[0],
+      min: vertices[vertices.length - 2]
+    };
+  }
+  initualizePositions() {  // randomize starting pos within container
+    console.log(this.borders)
     for(let i = 0; i < this.numBoids; i ++) {
-      const coord = {
-        x: 0,
-        y: 0,
-        z: 0
-      };
-      //  const coord = new THREE.Vector3(0, 0, 0);
-      const boid = new Boid(coord, 0.1, 0.1, 0.1);
+      const radius = 0.1;
+      const min = this.borders.min;
+      const max = this.borders.max;
+
+      const coord = new THREE.Vector3(
+        Calc.randomInRange(min.x + radius, max.x - radius),
+        Calc.randomInRange(min.y + radius, max.y - radius),
+        Calc.randomInRange(min.z + radius, max.z - radius)
+      );
+
+      const boid = new Boid(coord, radius, this.vel, this.accel);
       this.scene.add(boid.mesh);
       this.boids.push(boid);
     }
@@ -44,6 +55,10 @@ class Boids {
       boid.vel = b.vel + v1 + v2 + v3;
       boid.pos = boid.pos + boid.vel;
     });
+  }
+  testBorders() { // make sure boid is within borders + clamp if not
+    //Math.min()
+    // Math.max()
   }
   // boid rules
   getCenterMass(targetIndex) { // center mass without current boid
