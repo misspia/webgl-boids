@@ -1,8 +1,11 @@
-const Utils = {
+export const Device = {
   isMobile: () => {
     return /(Android|iPhone|iPod|iPad)/i.test(navigator.userAgent);
   },
-  
 }
 
-export default Utils;
+export const Calc = {
+  randomInRange: (min, max) => {
+  	return Math.random() * (max - min) + min;
+  }
+}
