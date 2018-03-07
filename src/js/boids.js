@@ -17,7 +17,7 @@ class Boids {
     this.vel = 0.01;
     this.accel = 0.01;
 
-    this.initualizePositions();
+    this.initPositions();
   }
   formatBorders(vertices) {
     return {
@@ -25,8 +25,7 @@ class Boids {
       min: vertices[vertices.length - 2]
     };
   }
-  initualizePositions() {  // randomize starting pos within container
-    console.log(this.borders)
+  initPositions() {  // randomize starting pos within container
     for(let i = 0; i < this.numBoids; i ++) {
       const radius = 0.1;
       const min = this.borders.min;
@@ -43,25 +42,32 @@ class Boids {
       this.boids.push(boid);
     }
   }
-  drawBoids() {
-
-  }
   updatePositions() {
     this.boids.forEach( boid => {
-      const v1 = this.getCenterMass();
-      const v2 = this.keepSmallDist();
-      const v3 = this.matchNeighbourVel();
+      const cohesionVector = this.cohesion();
+      const seperationVector = this.seperation();
+      const alignmentVector = this.alignment();
 
-      boid.vel = b.vel + v1 + v2 + v3;
+      boid.vel = b.vel + cohesionVector + seperationVector + alignmentVector;
       boid.pos = boid.pos + boid.vel;
     });
   }
-  testBorders() { // make sure boid is within borders + clamp if not
-    //Math.min()
-    // Math.max()
+  testBorders(boid) { // make sure boid is within borders + clamp if not
+    this.boid.pos(axis => {
+      this.testBorder(axis, boid);
+    })
+  }
+  testBorder(axis, boid, coord) {
+    if(coord <= this.borders.min[axis]) {
+      boid.pos[axis] = this.borders.min[axis] + boid.radius;
+    } else if((coord >= this.borders.max[axis]) {
+      boid.pos[axis] = this.borders.max[axis] - boid.radius;
+    } else {
+      boid.pos[axis] = coord;
+    }
   }
   // boid rules
-  getCenterMass(targetIndex) { // center mass without current boid
+  cohesion(targetIndex) { // center mass without current boid
     // average of all boid positions except boid index
     const totalPos = this.boids.reduce((acc, boid, index) => {
       if(targetIndex == index) return acc;
@@ -70,7 +76,7 @@ class Boids {
 
     return totalPos.divideScalar(this.boids.length);
   }
-  keepSmallDist(targetBoid, targetIndex) {
+  seperation(targetBoid, targetIndex) {
     return this.boids.reduce((acc, boid, index) => {
       if(targetIndex == index) return acc;
 
@@ -83,7 +89,7 @@ class Boids {
       }
     }, new THREE.Vector3());
   }
-  matchNeighbourVel(targetBoid, targetIndex) {
+  alignment(targetBoid, targetIndex) {
     const totalVel = this.boids.reduce((acc, boid, index) => {
       if(boidIndex == index) return acc;
       return acc += boid.vel;
