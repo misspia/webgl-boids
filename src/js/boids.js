@@ -14,8 +14,8 @@ class Boids {
 
     this.boids = [];
     this.numBoids = 10;
-    this.vel = 0.01;
-    this.accel = 0.01;
+    this.vel = new THREE.Vector3(0.01, 0.01, 0.01);
+    this.accel = new THREE.Vector3(0.01, 0.01, 0.01);
 
     this.initPositions();
   }
@@ -25,7 +25,7 @@ class Boids {
       min: vertices[vertices.length - 2]
     };
   }
-  initPositions() {  // randomize starting pos within container
+  initPositions() {
     for(let i = 0; i < this.numBoids; i ++) {
       const radius = 0.1;
       const min = this.borders.min;
@@ -37,7 +37,7 @@ class Boids {
         Calc.randomInRange(min.z + radius, max.z - radius)
       );
 
-      const boid = new Boid(coord, radius, this.vel, this.accel);
+      const boid = new Boid(this.borders, coord, radius, this.vel, this.accel);
       this.scene.add(boid.mesh);
       this.boids.push(boid);
     }
@@ -45,27 +45,21 @@ class Boids {
   updatePositions() {
     this.boids.forEach( boid => {
       const cohesionVector = this.cohesion();
-      const seperationVector = this.seperation();
-      const alignmentVector = this.alignment();
+      // const seperationVector = this.seperation();
+      // const alignmentVector = this.alignment();
 
-      boid.vel = b.vel + cohesionVector + seperationVector + alignmentVector;
-      boid.pos = boid.pos + boid.vel;
+      const combinedRules = cohesionVector;
+
+      boid.updatePos(combinedRules);
+
+      // boid.addVel(combinedRules);
+      // boid.addPos(boid.vel);
+
+      // boid.vel = b.vel + cohesionVector + seperationVector + alignmentVector;
+      // boid.pos = boid.pos + boid.vel;
     });
   }
-  testBorders(boid) { // make sure boid is within borders + clamp if not
-    this.boid.pos(axis => {
-      this.testBorder(axis, boid);
-    })
-  }
-  testBorder(axis, boid, coord) {
-    if(coord <= this.borders.min[axis]) {
-      boid.pos[axis] = this.borders.min[axis] + boid.radius;
-    } else if((coord >= this.borders.max[axis]) {
-      boid.pos[axis] = this.borders.max[axis] - boid.radius;
-    } else {
-      boid.pos[axis] = coord;
-    }
-  }
+
   // boid rules
   cohesion(targetIndex) { // center mass without current boid
     // average of all boid positions except boid index
@@ -102,10 +96,11 @@ class Boids {
   render() {
     // this.vel += this.accel;
     this.boids.forEach( boid => {
+      this.updatePositions();
+      // boid.addPos(new THREE.Vector3(Math.random() / 2, Math.random() / 2, Math.random() / 2));
       // boid.mesh.position.x += this.vel;
     })
   }
-
 }
 
 export default Boids;
