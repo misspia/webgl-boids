@@ -43,10 +43,10 @@ class Boids {
     }
   }
   updatePositions() {
-    this.boids.forEach( boid => {
-      const cohesionVector = this.cohesion();
-      // const seperationVector = this.seperation();
-      // const alignmentVector = this.alignment();
+    this.boids.forEach( (boid, index) => {
+      const cohesionVector = this.cohesion(index);
+      const seperationVector = this.seperation(boid, index);
+      const alignmentVector = this.alignment(boid, index);
 
       const combinedRules = cohesionVector;
 
@@ -62,7 +62,6 @@ class Boids {
 
   // boid rules
   cohesion(targetIndex) { // center mass without current boid
-    // average of all boid positions except boid index
     const totalPos = this.boids.reduce((acc, boid, index) => {
       if(targetIndex == index) return acc;
       return acc.add(boid.pos);
@@ -74,8 +73,7 @@ class Boids {
     return this.boids.reduce((acc, boid, index) => {
       if(targetIndex == index) return acc;
 
-      const deltaPos = targetBoid.sub(boid); // length() ??
-
+      const deltaPos = targetBoid.pos.sub(boid); // length() ??
        // 0.3 = closest allowed dist b/w boids
        // should be at least creater than the radius of a boid
       if(Math.abs(deltaPos) < 0.3) {
@@ -85,8 +83,8 @@ class Boids {
   }
   alignment(targetBoid, targetIndex) {
     const totalVel = this.boids.reduce((acc, boid, index) => {
-      if(boidIndex == index) return acc;
-      return acc += boid.vel;
+      if(targetIndex == index) return acc;
+      return acc.add(boid.vel);
     }, new THREE.Vector3());
 
     totalVel.divideScalar(this.boids.length - 1);

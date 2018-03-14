@@ -5,13 +5,16 @@ import frag from '../shaders/boid.frag'
 class Boid {
   constructor(borders, pos, radius, vel, accel) {
     this.borders = borders;
-    this.pos = pos;
+    this.initialPos = pos;
     this.radius = radius;
     this.vel = vel;
     this.accel = accel;
 
     this.mesh = {};
     this.init();
+  }
+  get pos() {
+    return this.mesh.position;
   }
   init() {
     const geometry = new THREE.SphereGeometry(this.radius, 32, 32);
@@ -26,7 +29,7 @@ class Boid {
 
     this.mesh = new THREE.Mesh(geometry, material);
 
-    const {x, y, z} = this.pos;
+    const {x, y, z} = this.initialPos;
     this.mesh.position.set(x, y, z);
   }
   addVel(vector) {
@@ -50,7 +53,7 @@ class Boid {
   boundAxis(axis) {
     const coord = this.mesh.position[axis];
     // const pos = this.mesh.posistion[axis];
-    console.log(this.mesh.position[axis])
+    // console.log(this.mesh.position[axis])
     // if(coord <= this.borders.min[axis]) {
     //   this.mesh.posistion[axis] = this.borders.min[axis] + this.radius;
     // } else if(coord >= this.borders.max[axis]) {
