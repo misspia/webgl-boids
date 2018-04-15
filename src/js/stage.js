@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import dat from 'dat.gui'
 
-import Boids from './boids.js'
+import Visualization from './modules/visualization.js'
 
 class Stage {
   constructor({ renderer, camera, target, scene, controls }) {
@@ -13,7 +13,7 @@ class Stage {
     this.gui = new dat.GUI();
 
     this.container = {};
-    this.simulation = {};
+    this.visualization = {};
     this.init();
   }
   init() {
@@ -31,7 +31,7 @@ class Stage {
       spawnPosition: this.getContainerCenter(),
       containerVertices: this.getContainerVertices()
     }
-    this.simulation = new Boids(config);
+    this.visualization = new Visualization(config);
   }
   createGUI() {
     // dat.gui controls
@@ -55,8 +55,8 @@ class Stage {
     return this.container.position;
   }
   render() {
-    this.renderer.render(this.scene, this.camera)
-    this.simulation.render();
+    this.renderer.render(this.scene, this.camera);
+    this.visualization.render();
     requestAnimationFrame(() => this.render());
   }
 }
