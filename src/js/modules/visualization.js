@@ -11,7 +11,10 @@ class Visualization {
     this.renderer = renderer;
     this.camera = camera;
     this.scene = scene;
+    this.audio = {};
+    this.nodes = [];
 
+    this.fftSize = 32;
     this.init();
   }
   formatBorders(vertices) {
@@ -22,20 +25,39 @@ class Visualization {
   }
   init() {
     const config = {
+      audioFile,
+      camera: this.camera,
+      fftSize: this.fftSize
+    }
+    this.audio = new Audio(config);
+    this.initBars();
+  }
+  initBars() {
+    const length = this.fftSize / 2;
+    for(let i = 0; i < length; i ++) {
+      const config = {
+        pos: new THREE.Vector3(i, 0, 0),
+        width: 0.5,
+        height: 1,
+        depth: 0.5,
+      };
+      const bar = new Bar(config);
+      this.nodes.push(bar);
+      this.scene.add(bar.mesh);
+    }
+  }
+  drawBars() {
+    const config = {
       pos: new THREE.Vector3(0, 0, 0),
       width: 1,
       height: 2,
       depth: 0.5,
     };
-    const audioConfig = {
-      audioFile,
-      camera: this.camera,
-    }
-    const audio = new Audio(audioConfig);
     const bar = new Bar(config);
     this.scene.add(bar.mesh);
   }
   render() {
+    this.audio.getFrequencyData();
 
   }
 }

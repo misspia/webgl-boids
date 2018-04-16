@@ -17,6 +17,10 @@ class Bar {
     const material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true});
 
     this.mesh = new THREE.Mesh(geometry, material);
+    this.setPos();
+  }
+  setPos() {
+    this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
   }
   render() {
 

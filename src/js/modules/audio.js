@@ -1,11 +1,15 @@
 import * as THREE from 'three';
 
 class Audio {
-  constructor({camera, audioFile}) {
+  constructor({camera, audioFile, fftSize}) {
+    this.file = audioFile;
+    this.camera = camera;
+    this.fftSize = fftSize;
+
     this.listener = {};
     this.sound = {};
-    this.camera = camera;
-    this.file = audioFile;
+    this.analyser = {};
+    this.data = [];
 
     this.init();
   }
@@ -15,6 +19,7 @@ class Audio {
 
     this.sound = new THREE.Audio(this.listener);
     this.loadFile();
+    this.initAnalyser();
   }
   loadFile() {
     const audioLoader = new THREE.AudioLoader();
@@ -22,14 +27,22 @@ class Audio {
       this.sound.setBuffer(buffer);
       this.sound.setLoop(true);
       this.sound.setVolume(0.5);
-      this.play()
+      this.play();
     })
+  }
+  initAnalyser() {
+    this.analyser = new THREE.AudioAnalyser(this.sound, this.fftSize);
+    this.getFrequencyData
   }
   play() {
     this.sound.play();
   }
   pause() {
     this.sound.pause();
+  }
+  getFrequencyData() {
+    this.data = this.analyser.getFrequencyData();
+    return this.data;
   }
 }
 
