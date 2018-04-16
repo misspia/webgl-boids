@@ -66,6 +66,12 @@ class App {
     const gridHelper = new THREE.GridHelper(size, divisions);
     this.scene.add(gridHelper);
   }
+  setCameraPos(x, y, z) {
+    this.camera.position.set(x, y, z);
+  }
+  lookAt(x, y, z) {
+    this.camera.lookAt(x, y, z);
+  }
 }
 
 export default App;
