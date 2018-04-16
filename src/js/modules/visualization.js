@@ -1,9 +1,12 @@
 import * as THREE from 'three'
 
+import audioFile from '../../assets/default.mp3';
+
+import Audio from './audio.js'
 import Bar from './bar.js'
 import { Calc } from './utils.js'
 
-class Boids {
+class Visualization {
   constructor({renderer, camera, scene}) {
     this.renderer = renderer;
     this.camera = camera;
@@ -24,6 +27,11 @@ class Boids {
       height: 2,
       depth: 0.5,
     };
+    const audioConfig = {
+      audioFile,
+      camera: this.camera,
+    }
+    const audio = new Audio(audioConfig);
     const bar = new Bar(config);
     this.scene.add(bar.mesh);
   }
@@ -32,4 +40,4 @@ class Boids {
   }
 }
 
-export default Boids;
+export default Visualization;
