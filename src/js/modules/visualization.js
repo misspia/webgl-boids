@@ -4,12 +4,11 @@ import Bar from './bar.js'
 import { Calc } from './utils.js'
 
 class Boids {
-  constructor({renderer, camera, scene, spanPosition, containerVertices}) {
+  constructor({renderer, camera, scene}) {
     this.renderer = renderer;
     this.camera = camera;
     this.scene = scene;
 
-    this.borders = this.formatBorders(containerVertices);
     this.init();
   }
   formatBorders(vertices) {
@@ -19,9 +18,14 @@ class Boids {
     };
   }
   init() {
-
-    const bar = new Bar();
-      // this.scene.add();
+    const config = {
+      pos: new THREE.Vector3(0, 0, 0),
+      width: 1,
+      height: 2,
+      depth: 0.5,
+    };
+    const bar = new Bar(config);
+    this.scene.add(bar.mesh);
   }
   render() {
 

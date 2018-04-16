@@ -13,8 +13,11 @@ const options = {
 
 const app = new App(canvas, options);
 app.showGridHelper();
-const setupObjects = app.getSetupSetup();
 
+app.setCameraPos(-1, 7, -6);
+app.lookAt(0, 0, 0);
+
+const setupObjects = app.getSetupSetup();
 const stage = new Stage(setupObjects);
 
 window.onload = () => {
