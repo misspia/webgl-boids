@@ -28,6 +28,7 @@ class Audio {
       this.sound.setLoop(true);
       this.sound.setVolume(0.5);
       this.play();
+      console.log(this.sound)
     })
   }
   initAnalyser() {
@@ -43,6 +44,12 @@ class Audio {
   getFrequencyData() {
     this.data = this.analyser.getFrequencyData();
     return this.data;
+  }
+  get context() {
+    return this.sound.context;
+  }
+  get gainNode() {
+    return this.sound.gain;
   }
 }
 

@@ -3,11 +3,11 @@ import vert from '../../shaders/bar.vert';
 import frag from '../../shaders/bar.frag';
 
 class Bar {
-  constructor({pos, height, width, depth}) {
+  constructor({pos}) {
     this.pos = pos;
-    this.height = height;
-    this.width = width;
-    this.depth = depth;
+    this.height = 1.0;
+    this.width = 0.5;
+    this.depth = 0.5;
 
     this.mesh = {};
     this.init();
@@ -21,6 +21,9 @@ class Bar {
   }
   setPos() {
     this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
+  }
+  update(node) {
+    this.mesh.scale.y = Math.max(0.1, node / 255) * 5;
   }
   render() {
 

@@ -12,7 +12,7 @@ const options = {
 };
 
 const app = new App(canvas, options);
-app.showGridHelper();
+// app.showGridHelper();
 
 app.setCameraPos(-1, 7, -6);
 app.lookAt(0, 0, 0);
