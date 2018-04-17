@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import './index.scss'
 import App from './js/app.js'
 import Stage from './js/stage.js'
-import frag from './shaders/frag.glsl'
 
 const canvas = document.getElementById('canvas');
 const options = {
