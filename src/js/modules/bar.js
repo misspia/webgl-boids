@@ -19,6 +19,7 @@ class Bar {
   init() {
     this.initGeometry();
     this.initMaterial();
+    
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.setPos();
   }
