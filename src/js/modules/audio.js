@@ -11,6 +11,8 @@ class Audio {
     this.analyser = {};
     this.data = [];
 
+    this.biquadFilter = {};
+    this.gainNode = {};
     this.init();
   }
   init() {
@@ -28,12 +30,13 @@ class Audio {
       this.sound.setLoop(true);
       this.sound.setVolume(0.5);
       this.play();
-      console.log(this.sound)
     })
   }
   initAnalyser() {
     this.analyser = new THREE.AudioAnalyser(this.sound, this.fftSize);
-    this.getFrequencyData
+  }
+  connectBiquadFilter() {
+    this.biquadFilter = this.context.createBiquadFilter();
   }
   play() {
     this.sound.play();
@@ -41,15 +44,15 @@ class Audio {
   pause() {
     this.sound.pause();
   }
+  connect(filter) {
+    this.sound.connect(filter);
+  }
   getFrequencyData() {
     this.data = this.analyser.getFrequencyData();
     return this.data;
   }
   get context() {
     return this.sound.context;
-  }
-  get gainNode() {
-    return this.sound.gain;
   }
 }
 
